@@ -1,0 +1,13 @@
+<table class="table table-striped" >
+  <% unless @categories.blank? %>
+    <% @categories.each do |category| %>
+      <tr>
+        <td><%=category.id%></td>
+        <td><%=category.name%></td>
+        <td><%= link_to 'delete', category_path(category.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+     </tr>
+    <% end %>
+    <% end %>
+</table>
+<%= link_to "Add New Category", new_category_path %></br>
+

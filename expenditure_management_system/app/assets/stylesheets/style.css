@@ -1,0 +1,26 @@
+div{
+  display: block;
+}
+
+.header-background{
+  background-color: #222;
+  min-height:50px;
+}
+
+.home-links{
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+.input{
+  width: 240px;
+}
+
+#error_explanation li{
+  color: #b94a48;
+}
+
+.datepicker-position
+{
+ top: 569px !important;
+}

@@ -1,0 +1,6 @@
+<%if @expense.invoices.present?%>
+  <% @expense.invoices.each do |invoice|%>
+    <%= image_tag invoice.receipt_image.url(:thumb) %>
+  <% end %>
+<% end %>
+

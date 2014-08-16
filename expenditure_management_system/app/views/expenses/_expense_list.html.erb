@@ -1,0 +1,98 @@
+<% unless @expenses.blank? %>
+  <table class="table table-striped" >
+    <thead>
+      <th>Id</th>
+      <th>user id</th>
+      <th>Name</th>
+      <th>category</th>
+      <th>description</th>
+      <th>date</th>
+      <th>status</th>
+      <th>explanation</th>    
+    </thead>
+    <tbody>
+      <% @expenses.each do |expense| %>
+        <tr>
+          <td><%= expense.id %></td>
+          <td> <%= expense.user_id %></td>
+          <td><%= expense.name %></td>
+          <td><%= expense.try(:category).try(:name) %></td>
+          <td><%= expense.try(:description) %></td>
+          <td><%= expense.date %></td>
+          <td><%= expense.status %></td>
+          
+          <% if expense.status == "In process" %>
+              <% if can? :all, expense %>
+                <td><button id="approved" type="button" class="explanationLink" value="<%= expense.id %>">Approved</button>
+                <button  id="canceled" type="button" class="explanationLink" value="<%= expense.id %>">Cancel</button></td>
+                <td></td>
+              <% end %>
+          <% else %>
+            <td><%= expense.explanation %></td>
+            <td>
+              <% if expense.status == "approved" %>
+                <% if expense.invoices.present? %>
+                  <%= link_to "Show Receipt", expense_invoices_path(expense.id), :target => "_blank"%>
+                <% end %>
+              <% end %>
+            </td>
+          <% end %>
+            
+          <td><%= link_to "edit", edit_expense_path(expense.id) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= will_paginate @expenses %> 
+<% end %>
+
+<div id="dialog" title="Explanation"><input id="status" name="status" type="hidden" value="" /><input id="explanation" name="explanation" placeholder ="Write here" value="" /></div>
+
+<%= link_to "Send Request For Expense", new_expense_path %>
+
+<script>
+  $("#approved").click(function(e){
+    $("#status").val("approved");
+  });
+  $("#canceled").click(function(e){
+    $("#status").val("canceled");
+  });
+  $("#dialog").dialog({
+      autoOpen: false,
+      modal: true
+    });
+  
+  $(".explanationLink").click(function(e) {
+    e.preventDefault();
+        
+    $("#dialog").dialog({
+      buttons : {
+        "Confirm" : function() {
+          $.ajax({
+                  type: "PATCH",
+                  url: "/expenses/"+ $(".explanationLink").val()+"/status_update",
+                  data: {"id" : $(".explanationLink").val(), "status" : $("#status").val(),  "explanation" : $("#explanation").val()}
+                });
+                $(this).dialog("close");
+        },
+        "Cancel" : function() {
+          $(this).dialog("close");
+        }
+      }
+    });
+
+    $("#dialog").dialog("open");
+  });
+  
+  
+</script>
+
+
+
+
+
+
+
+
+
+

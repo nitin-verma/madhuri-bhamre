@@ -1,0 +1,25 @@
+<strong>id:</strong>
+<%= @expense.id %></br>
+
+<strong>user_id:</strong>
+<%= @expense.user_id %></br>
+
+<strong>name:</strong>
+<%= @expense.name %></br>
+
+<strong>category:</strong>
+<%= @expense.category.try(:name) %></br>
+
+<strong>date:</strong>
+<%= @expense.date %></br></br>
+
+<%= form_for @expense, url: expense_invoices_path, method: :post do |f|%>
+  <% @expense.invoices.build %>
+  <%= f.fields_for :invoices do |invoice| %>
+    <%= invoice.file_field :receipt_image %><br/>
+  <% end %>
+  <%= f.submit "submit receipt" %>  
+<% end %>
+
+
+

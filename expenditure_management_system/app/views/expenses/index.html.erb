@@ -1,0 +1,14 @@
+<div>
+<%= form_for :category do |f|%>
+  search by category<%= f.collection_select(:category_id, @categories, :id, :name, :include_blank => "select category") %>
+  <td><button id="search" type="button" >Filter</button>
+<% end %>
+</div>
+<div id = "expense_list">
+  <%= render partial: "/expenses/expense_list" %>
+</div>
+<script>
+  $("#search").click(function(e){
+    
+  });
+</script>

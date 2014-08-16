@@ -1,0 +1,37 @@
+
+<div class="middle-container">
+   <% if can? :read, Expense%>
+    <%= link_to "expenses", expenses_path %></br>
+   <% end %>
+   <% if can? :read, Category %>
+    <%= link_to "category of expences", categories_path %></br>
+   <% end %>
+   <% if can? :read, User %>
+    <%= link_to "employee", users_path %></br>
+   <% end %>
+   <% if can? :create, User %>
+    <%= link_to "invite new user", new_user_invitation_path %></br>
+   <% end %>
+</div>
+</br></br>
+
+<div class = "sidebar"> 
+  <table class="table table-striped" >
+    <thead>
+      <th>Upcoming birth day</th>
+    </thead>
+    <tbody>
+      <% unless @birth_day_users.blank? %>
+        <% @birth_day_users.each do |birth_day_user| %>
+          <tr>
+            <td><%= birth_day_user.try(:name) %><br/></td>
+            <td><%= birth_day_user.try(:date_of_birth)%></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+
+
