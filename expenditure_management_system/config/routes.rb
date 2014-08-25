@@ -3,11 +3,17 @@ Rails.application.routes.draw do
  
   devise_for :users, controllers: { registrations: "registrations", invitations: "invitations" }
 
-
-  resources :employees
+  resources :users do
+    get 'send_expense_review', on: :collection
+  end
+  resources :user_details
   resources :expenses do
     patch 'status_update', on: :member
-    get 'search_by_category', on: :member
+    collection do
+      get 'search_by_filter' 
+      get 'review_expenses'
+      get 'search_review'
+    end
     resources :invoices
   end
   resources :categories

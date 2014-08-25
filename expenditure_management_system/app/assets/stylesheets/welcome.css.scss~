@@ -8,6 +8,6 @@
 }
 
 .sidebar{
-  width: 220px;
+  width: 250px;
   float: right;
 }

@@ -1,0 +1,33 @@
+<table class="table table-striped" >
+  <thead>
+    <th>Id</th>
+    <th>Email</th>
+    <th>Name</th>
+    <th>Role</th>
+    <th>Address</th>
+    <th>Phone</th>
+    <th>Date Of Birth</th>
+  </thead>
+  <tbody>
+    <% unless @users.blank? %>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= user.id %></td>
+          <td> <%= user.email %></td>
+          <td> <%= user.try(:user_detail).try(:name) %></td>
+          <td><%= user.role %></td>
+          <td><%= user.try(:user_detail).try(:address) %></td>
+          <td><%= user.try(:user_detail).try(:phone) %></td>
+          <td><%= user.try(:user_detail).try(:date_of_birth) %></td>
+          <td> <%= button_to "Cancel account", user_path(user.id), data: { confirm: "Are you sure?" }, method: :delete %></td>
+          <td><%#= link_to "edit", edit_user_detail_path(user.id) %></td>
+          <td><%#= link_to "Send Request For Expense", new_expense_path(user_id: user.id) %></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to "Invite New User", new_user_invitation_path %>
+<%#= link_to "Add New Employee", new_user_path %></br>
+<%#= link_to "Back To Home", root_path %>

@@ -1,24 +1,26 @@
-
 <div class="middle-container">
    <% if can? :read, Expense%>
-    <%= link_to "expenses", expenses_path %></br>
+    <%= link_to "Expenses", expenses_path %></br>
    <% end %>
    <% if can? :read, Category %>
-    <%= link_to "category of expences", categories_path %></br>
+    <%= link_to "Category Of Expences", categories_path %></br>
    <% end %>
    <% if can? :read, User %>
-    <%= link_to "employee", users_path %></br>
+    <%= link_to "Employee", user_details_path %></br>
    <% end %>
    <% if can? :create, User %>
-    <%= link_to "invite new user", new_user_invitation_path %></br>
+    <%= link_to "Invite New User", new_user_invitation_path %></br>
    <% end %>
+   <% if can? :review_expenses, Expense %>
+     <%= link_to "Review Expenses", review_expenses_expenses_path %>
+  <% end %>
 </div>
 </br></br>
 
 <div class = "sidebar"> 
   <table class="table table-striped" >
     <thead>
-      <th>Upcoming birth day</th>
+      <th>Upcoming Birth Day</th>
     </thead>
     <tbody>
       <% unless @birth_day_users.blank? %>

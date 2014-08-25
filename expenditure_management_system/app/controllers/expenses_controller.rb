@@ -1,9 +1,10 @@
 class ExpensesController < ApplicationController
+  include Search
   load_and_authorize_resource
   skip_before_filter :verify_authenticity_token, :only => :status_update
 
   def index
-    get_expense_object
+    @expenses = get_expense.page(params[:page]).order('id desc')
     @categories = Category.all
   end
   
@@ -40,21 +41,34 @@ class ExpensesController < ApplicationController
   def status_update
     @expense = Expense.where(id: params[:id]).first
     @expense.update_attributes(status: get_valid_status, explanation: get_explanation) 
-    get_expense_object    
+    get_expense    
   end
-    
-  def get_valid_status
-    Expense::EXPENSE_STATUSES.include?(params[:status])? params[:status] : Expense::INPROCESS
-  end
-  
-  def search_by_category
+   
+  def search_by_filter
+    @expenses = search_expenses(params[:category_id], params[:start_date], params[:end_date])
+    @expenses = @expenses.paginate(:page => params[:page]).order('id desc') if @expenses.present?
   end
   
   def get_explanation
     Expense::EXPENSE_STATUSES.include?(params[:status]) ? params[:explanation] : ""
   end
   
+  def review_expenses
+      @expenses = get_expense.with_status_approved
+      @categories = Category.all
+      @total_expense = get_total_expense(@expenses) if @expenses.present?
+  end
+  
+  def search_review
+    @expenses = search_expenses(params[:category_id], params[:start_date], params[:end_date], true)
+    @total_expense = get_total_expense(@expenses) if @expenses.present?
+  end
+  
   private
+  def get_valid_status
+    Expense::EXPENSE_STATUSES.include?(params[:status])? params[:status] : Expense::INPROCESS
+  end
+  
   def expense_params
     params.require(:expense).permit(:name, :date, :category_id, :number_of_item, :price_per_item, :description)
   end
@@ -63,7 +77,7 @@ class ExpensesController < ApplicationController
     params.require(:expense).permit(:name, :date, :category_id, :number_of_item, :price_per_item, :description, :invoices_attributes => [:id, :receipt_image])
   end
   
-  def get_expense_object
-    @expenses = Expense.includes(:category).page(params[:page]).order('id desc')
+  def get_expense
+    Expense.includes(:category)
   end
 end

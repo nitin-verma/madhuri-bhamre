@@ -1,27 +1,33 @@
-<%= nested_form_for @expense do |f| %>
-  <%= f.label :name %>
-  <%= f.text_field :name , :class => "input" %></br>
-  <%= alert_helper @expense.errors[:name] %>
- 
-  <%= f.label :categories %>
-  <%= f.collection_select(:category_id, @categories, :id, :name, :include_blank => "select category") %></br>
-  <%= alert_helper @expense.errors[:category] %>
- 
-  <%= f.label :number_of_item %>
-  <%= f.text_field :number_of_item ,:class => "input" %></br>
-  <%= alert_helper @expense.errors[:date] %>
-  
-  <%= f.label :price_per_item %>
-  <%= f.text_field :price_per_item ,:class => "input" %></br>
-  <%= alert_helper @expense.errors[:date] %>
-  
-  <%= f.label :description %>
-  <%= f.text_area :description %>
- 
-  <%= f.label :date %>
-  <%= f.text_field :date ,:class => "input" , :id => "request_date" %></br>
-  <%= alert_helper @expense.errors[:date] %>
-  
+<%= nested_form_for @expense ,:html=> { :class => "form-horizontal"} do |f| %>
+  <div class="form-group">
+    <%= f.label :name, class: 'col-md-2' %>
+    <%= f.text_field :name , :class => "input col-md-10" %>
+    <%= alert_helper @expense.errors[:name] %>
+  </div>
+  <div class="form-group">
+    <%= f.label :categories, class: 'col-md-2' %>
+    <%= f.collection_select(:category_id, @categories, :id, :name, :include_blank => "select category", :class => "input col-md-10" ) %>
+    <%= alert_helper @expense.errors[:category] %>
+  </div>
+  <div class="form-group">
+    <%= f.label :number_of_item, class: 'col-md-2' %>
+    <%= f.text_field :number_of_item ,:class => "input col-md-10" %>
+    <%= alert_helper @expense.errors[:date] %>
+  </div>
+  <div class="form-group"> 
+    <%= f.label :price_per_item, class: 'col-md-2' %>
+    <%= f.text_field :price_per_item ,:class => "input col-md-10" %>
+    <%= alert_helper @expense.errors[:date] %>
+  </div>  
+  <div class="form-group">
+    <%= f.label :description, class: 'col-md-2' %>
+    <%= f.text_area :description, :class => "input col-md-10"  %>
+  </div> 
+  <div class="form-group">
+    <%= f.label :date, class: 'col-md-2' %>
+    <%= f.text_field :date ,:class => "date-picker input col-md-10" , :id => "request_date" %>
+    <%= alert_helper @expense.errors[:date] %>
+  </div>  
   <% if @expense.status == Expense::APPROVED %>
     <%= f.fields_for :invoices do |invoice| %>
       <% if invoice.object.receipt_image.present? %>
@@ -38,4 +44,10 @@
   <%= f. submit %><br/>
   <%= link_to "back", expenses_path %>
 <% end %>
+
+<script>
+$('.date-picker').datepicker({
+    format: 'yyyy-mm-dd'
+  })
+</script>
 

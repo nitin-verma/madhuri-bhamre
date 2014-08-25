@@ -1,0 +1,58 @@
+<div  >
+  <div style=>
+    <%= text_field_tag :start_date ,nil, :class => "request_date", placeholder: 'Start Date' %>-
+    <%= text_field_tag :end_date ,nil , :class => "request_date", placeholder: 'End Date' %>
+    <%= select_tag "categories", options_from_collection_for_select(@categories, "id", "name"), prompt: "Select one category"%>
+    <button id="search" type="button" >Filter</button>
+  </div>
+</div><br/>
+<div id = "review_expense_list">
+  <%= render :partial => '/expenses/review_expense_list' %>
+</div>
+<div id="dialog" title="Email"><input id="email" name="email" placeholder ="Write here" value="" /></div>
+
+
+<script>
+    $("#dialog").dialog({
+        autoOpen: false,
+        modal: true
+      });
+    
+    $(document).on('click','.send_review',function() {
+      $("#dialog").dialog({
+        buttons : {
+          "Confirm" : function() {
+            $.ajax({
+              type: "GET",
+              url: "/users/send_expense_review",
+              data: {"email" : $("#email").val(), "category_id" : $("#categories").val(), "start_date" : $("#start_date").val() ,"end_date" : $("#end_date").val()}
+            });
+            $(this).dialog("close");
+          },
+          "Cancel" : function() {
+            $(this).dialog("close");
+          }
+        }
+      });
+
+      $("#dialog").dialog("open");
+    });
+  $('#start_date').datepicker({format: 'yyyy-mm-dd'}).on("change", function(e){
+    $('#end_date').val("");
+    $('#end_date').datepicker('setStartDate', $('#start_date').datepicker( "getDate" ));
+  });
+    
+  $('#end_date').datepicker({
+    format: 'yyyy-mm-dd'
+  });
+    
+  $(document).on('click','#search',function(){
+    $.ajax({
+      type: "GET",
+      url: "/expenses/search_review",
+      data: {"category_id" : $("#categories").val(), "start_date" : $("#start_date").val() ,"end_date" : $("#end_date").val()}
+    });
+  });
+    
+  
+</script>

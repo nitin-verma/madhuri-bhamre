@@ -7,7 +7,7 @@
   <p><%= f.label field %><br />
   <%= f.text_field field %></p>
   
-  <p><%= f.label :role %><br />
+  <p><%= f.label :role %>
   <%= f.collection_select(:role, User::ROLE, :to_s, :titleize, :include_blank => "Select Role") %></br>
  
 <% end -%>

@@ -1,13 +1,5 @@
-GIT
-  remote: git://github.com/Nerian/bootstrap-datepicker-rails.git
-  revision: fb0700d197540f1a84b54f5d1e0606ddace2732a
-  specs:
-    bootstrap-datepicker-rails (1.3.0.2)
-      railties (>= 3.0)
-
-GIT
-  remote: git://github.com/ryanb/nested_form.git
-  revision: 1b0689dfb4d230ceabd278eba159fcb02f23c68a
+PATH
+  remote: vendor/nested_form
   specs:
     nested_form (0.3.2)
 
@@ -42,6 +34,8 @@ GEM
       tzinfo (~> 1.1)
     arel (5.0.1.20140414130214)
     bcrypt (3.1.7)
+    bootstrap-datepicker-rails (1.3.0.2)
+      railties (>= 3.0)
     builder (3.2.2)
     cancancan (1.9.1)
     carrierwave (0.10.0)
@@ -94,6 +88,7 @@ GEM
     multi_json (1.10.1)
     mysql2 (0.3.16)
     orm_adapter (0.5.0)
+    pdfkit (0.6.2)
     polyglot (0.3.5)
     rack (1.5.2)
     rack-test (0.6.2)
@@ -157,12 +152,13 @@ GEM
     warden (1.2.3)
       rack (>= 1.0)
     will_paginate (3.0.7)
+    wkhtmltopdf-binary (0.9.9.3)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  bootstrap-datepicker-rails!
+  bootstrap-datepicker-rails
   cancancan (~> 1.9)
   carrierwave
   coffee-rails (~> 4.0.0)
@@ -174,6 +170,7 @@ DEPENDENCIES
   mini_magick
   mysql2
   nested_form!
+  pdfkit (~> 0.6.2)
   rails (= 4.1.4)
   remotipart (~> 1.2)
   sass-rails (~> 4.0.3)
@@ -183,3 +180,4 @@ DEPENDENCIES
   turbolinks
   uglifier (>= 1.3.0)
   will_paginate (~> 3.0)
+  wkhtmltopdf-binary

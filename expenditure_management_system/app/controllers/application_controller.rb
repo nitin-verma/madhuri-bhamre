@@ -15,4 +15,12 @@ class ApplicationController < ActionController::Base
       redirect_to root_path
     end
   end
+  
+  def get_total_expense(expenses)
+    total = 0
+    expenses.each do |expense|
+      total = total + expense.number_of_item * expense.price_per_item
+    end
+    return total
+  end
 end

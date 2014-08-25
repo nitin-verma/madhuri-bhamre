@@ -4,10 +4,14 @@ class Ability
   def initialize(user)
     
     if user.present? 
-      if user.role == User::ADMIN
+      role = user.role
+      if role == User::ADMIN
         can :manage, :all
-      elsif user.role == User::OFFICE_ADMIN
-        can [:create, :read, :update, :destroy], [Expense]
+      elsif role == User::OFFICE_ADMIN
+        can [:create, :read, :update, :destroy, :search_by_filter, :status_update], [Expense]
+        can [:update] , [UserDetail]
+      elsif role == User::DEVELOPER
+        can [:update] , [UserDetail]
       end
     end
       

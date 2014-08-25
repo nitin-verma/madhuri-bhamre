@@ -1,14 +1,70 @@
-<div>
-<%= form_for :category do |f|%>
-  search by category<%= f.collection_select(:category_id, @categories, :id, :name, :include_blank => "select category") %>
-  <td><button id="search" type="button" >Filter</button>
-<% end %>
+<div class="row">
+  <div class="col-md-12">
+    <%= text_field_tag :start_date ,nil, :class => "request_date", placeholder: 'Start Date' %>-
+    <%= text_field_tag :end_date ,nil , :class => "request_date", placeholder: 'End Date' %>
+    <%= select_tag "categories", options_from_collection_for_select(@categories, "id", "name"), prompt: "Select one category"%>
+    <button id="search" type="button" >Filter</button>
+  </div>
 </div>
+<br/>
 <div id = "expense_list">
   <%= render partial: "/expenses/expense_list" %>
 </div>
+<div id="dialog" title="Explanation"><input id="status" name="status" type="hidden" value="" /><input id="explanation" name="explanation" placeholder ="Write here" value="" /></div>
+
+<%= link_to "New Expense", new_expense_path %>
+
 <script>
-  $("#search").click(function(e){
+   
+    $(document).on('click','#approved',function(e){
+      $("#status").val("approved");
+    });
     
-  });
+    $(document).on('click','#canceled',function(e){
+      $("#status").val("canceled");
+    });
+   
+    $("#dialog").dialog({
+        autoOpen: false,
+        modal: true
+    });
+    
+    $(document).on('click', '.explanationLink', function(){
+      $("#dialog").dialog({
+        buttons : {
+          "Confirm" : function() {
+            $.ajax({
+              type: "PATCH",
+              url: "/expenses/"+ $(".explanationLink").val()+"/status_update",
+              data: {"id" : $(".explanationLink").val(), "status" : $("#status").val(),  "explanation" : $("#explanation").val()}
+            });
+            $(this).dialog("close");
+          },
+          "Cancel" : function() {
+            $(this).dialog("close");
+          }
+        }
+      });
+
+      $("#dialog").dialog("open");
+    });
+
+    $('#start_date').datepicker({format: 'yyyy-mm-dd'}).on("change", function(e){
+      $('#end_date').val("");
+      $('#end_date').datepicker('setStartDate', $('#start_date').datepicker( "getDate" ));
+    });
+    
+    $('#end_date').datepicker({
+      format: 'yyyy-mm-dd'
+    });
+    
+    $(document).on('click','#search',function(){
+      $.ajax({
+        type: "GET",
+        url: "/expenses/search_by_filter",
+        data: {"category_id" : $("#categories").val(), "start_date" : $("#start_date").val() ,"end_date" : $("#end_date").val()}
+      });
+    });
+    
+  
 </script>

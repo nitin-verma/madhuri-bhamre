@@ -13,8 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.remotipart
-//= require turbolinks
 //= require jquery_nested_form
 //= require_tree .
 //= require bootstrap-datepicker
+
 

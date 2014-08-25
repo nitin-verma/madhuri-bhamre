@@ -21,7 +21,7 @@
     
   <div><%= f.submit "Update" %></div>
 <% end %>
-<%= form_for(resource, as: resource_name, url: user_path(resource_name), html: { method: :put }) do |f| %>   
+<%= form_for(resource, as: resource_name, url: user_detail_path(resource.user_detail.id), html: { method: :patch }) do |f| %>   
   <%= f.fields_for :user_detail do |ud| %>
     
     <div><%= ud.label :name %><br />

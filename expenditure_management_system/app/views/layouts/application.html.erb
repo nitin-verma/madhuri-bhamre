@@ -23,15 +23,12 @@
       <% end %>
     </p>
   </div>
-  <div class=" container">
-    <% if notice %>
-      <p class="alert alert-success"><%= notice %></p>
-    <% end %>
-    <% if alert %>
-      <p class="alert alert-danger"><%= alert %></p>
-    <% end %>
+  <div class="container">
+    <div class="flash_messages">
+      <%= render :partial => '/shared/flash_messages'%>
+    </div>
     <%= yield %>
   </div>
-
+  
 </body>
 </html>

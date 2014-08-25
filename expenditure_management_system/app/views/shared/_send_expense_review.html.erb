@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Invoice</title>
+  </head>
+
+  <body>  
+    
+    <% if  category.present? %>
+      Category-<%= text_field_tag :name, category.name, :readonly => true %> 
+    <% end %>
+    <% unless expenses.blank? %>
+      <table class="table table-striped" >
+        <thead>
+          <th>user name</th>
+          <th>Name</th>
+          <th>category</th>
+          <th>description</th>
+          <th>date</th>
+          <th>status</th>
+          <th>explanation</th>  
+          <th>Items</th>
+          <th>Price Per Item</th>  
+          <th>Expense</th>        
+        </thead>
+        <tbody>
+          <% expenses.each do |expense| %>
+            <tr>
+              <td><%= expense.user.user_detail.try(:name) %></td>
+              <td><%= expense.name %></td>
+              <td><%= expense.try(:category).try(:name) %></td>
+              <td><%= expense.try(:description) %></td>
+              <td><%= expense.date %></td>
+              <td><%= expense.status %></td>
+              <td><%= expense.explanation %></td>
+              <td><%= expense.number_of_item %></td>
+              <td><%= expense.price_per_item %></td>
+              <td><%= expense.number_of_item*expense.price_per_item %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      Total Expense-<%= text_field_tag :total_expense, total_expense, :readonly => true %>
+    <% else %>
+      <h1>No Records Found</h1>  
+    <% end %>
+  </body>
+</html>
